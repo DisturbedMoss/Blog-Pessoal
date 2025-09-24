@@ -2,9 +2,11 @@ import { IsNotEmpty } from 'class-validator';
 import {
   Column,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Tema } from '../../tema/entities/tema.entity';
 
 @Entity({ name: 'tb_postagens' })
 export class Postagem {
@@ -21,4 +23,11 @@ export class Postagem {
 
   @UpdateDateColumn()
   data: Date;
+  //indica que postagem estara do lado muitos para um
+  @ManyToOne(() => Tema, (tema) => tema.postagem, {
+    //todos os relacionados serão apagados também
+    onDelete: 'CASCADE',
+  })
+  //criando um objeto na classe Tema, ele será associado ao objeto da classe postagem. o objeto representa a chave estrangeira da tb_postagens
+  tema: Tema;
 }

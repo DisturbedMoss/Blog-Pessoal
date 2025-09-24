@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Postagem } from './postagem/entities/postagem.entity';
 import { PostagemModule } from './postagem/postagem.modules';
+import { Tema } from './tema/entities/tema.entity';
+import { TemaModule } from './tema/tema.module';
 
 @Module({
   //Decorator que define um módulo
@@ -14,12 +16,15 @@ import { PostagemModule } from './postagem/postagem.modules';
       username: 'root',
       password: 'root',
       database: 'db_blogpessoal',
-      entities: [Postagem],
+      //Inserir as novas entidades aqui <--
+      entities: [Postagem, Tema],
       //no banco de dados entities são as tabelas
       synchronize: true,
       // por enquanto usuario e senha root
     }),
+    //inserir o module exportado aqui <--
     PostagemModule,
+    TemaModule,
   ],
   //é a configuração que liga com o banco de dados
   controllers: [],

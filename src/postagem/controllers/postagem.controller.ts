@@ -33,6 +33,7 @@ export class PostagemController {
     return this.postagemService.findById(id);
   }
 
+  //endereço / os gets precisam ter endereços diferentes para se diferenciarem
   @Get('/titulo/:titulo')
   @HttpCode(HttpStatus.OK)
   //retorna uma promessa<Postagem[]> que contém um array de objetos da classe postagem

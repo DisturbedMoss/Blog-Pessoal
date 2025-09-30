@@ -4,6 +4,9 @@ import { Postagem } from './postagem/entities/postagem.entity';
 import { PostagemModule } from './postagem/postagem.modules';
 import { Tema } from './tema/entities/tema.entity';
 import { TemaModule } from './tema/tema.module';
+import { AuthModule } from './auth/auth.module';
+import { Usuario } from './usuario/entities/usuario.entity';
+import { UsuarioModule } from './usuario/usuario.module';
 
 @Module({
   //Decorator que define um módulo
@@ -17,7 +20,7 @@ import { TemaModule } from './tema/tema.module';
       password: 'root',
       database: 'db_blogpessoal',
       //Inserir as novas entidades aqui <--
-      entities: [Postagem, Tema],
+      entities: [Postagem, Tema, Usuario],
       //no banco de dados entities são as tabelas
       synchronize: true,
       // por enquanto usuario e senha root
@@ -25,6 +28,8 @@ import { TemaModule } from './tema/tema.module';
     //inserir o module exportado aqui <--
     PostagemModule,
     TemaModule,
+    AuthModule,
+    UsuarioModule,
   ],
   //é a configuração que liga com o banco de dados
   controllers: [],

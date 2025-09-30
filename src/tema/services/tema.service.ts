@@ -13,8 +13,10 @@ export class TemaService {
   async findAll(): Promise<Tema[]> {
     return await this.temaRepository.find({
       //vai em todos os objetos relacionados
+      //é como se fosse o JOINT
       relations: {
         postagem: true,
+        //usuario: true, poderia fazer isso
       },
     });
   }

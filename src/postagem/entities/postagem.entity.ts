@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Tema } from '../../tema/entities/tema.entity';
+import { Usuario } from '../../usuario/entities/usuario.entity';
 
 @Entity({ name: 'tb_postagens' })
 export class Postagem {
@@ -28,6 +29,10 @@ export class Postagem {
     //todos os relacionados serão apagados também
     onDelete: 'CASCADE',
   })
+  @ManyToOne(() => Usuario, (usuario) => usuario.postagem, {
+    onDelete: 'CASCADE',
+  })
+  usuario: Usuario;
   //criando um objeto na classe Tema, ele será associado ao objeto da classe postagem. o objeto representa a chave estrangeira da tb_postagens
   tema: Tema;
 }

@@ -21,6 +21,7 @@ export class PostagemService {
     return await this.postagemRepository.find({
       relations: {
         tema: true,
+        usuario: true,
       },
     });
   }
@@ -33,6 +34,7 @@ export class PostagemService {
       },
       relations: {
         tema: true,
+        usuario: true,
       },
     });
 
@@ -52,12 +54,14 @@ export class PostagemService {
       },
       relations: {
         tema: true,
+        usuario: true,
       },
     });
   }
 
   //envia um post e salva no banco de dados
   async create(postagem: Postagem): Promise<Postagem> {
+    //Garante que o tema exista ao criar / vai específicamente no postagem -> tema -> id(dentro do tema)
     await this.temaService.findById(postagem.tema.id);
 
     return await this.postagemRepository.save(postagem);

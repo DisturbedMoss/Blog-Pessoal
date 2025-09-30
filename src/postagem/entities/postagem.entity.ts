@@ -25,14 +25,12 @@ export class Postagem {
   @UpdateDateColumn()
   data: Date;
   //indica que postagem estara do lado muitos para um
-  @ManyToOne(() => Tema, (tema) => tema.postagem, {
-    //todos os relacionados serão apagados também
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne(() => Tema, (tema) => tema.postagem, { onDelete: 'CASCADE' })
+  //criando um objeto na classe Tema, ele será associado ao objeto da classe postagem. o objeto representa a chave estrangeira da tb_postagens
+  tema: Tema;
+  //todos os relacionados serão apagados também
   @ManyToOne(() => Usuario, (usuario) => usuario.postagem, {
     onDelete: 'CASCADE',
   })
   usuario: Usuario;
-  //criando um objeto na classe Tema, ele será associado ao objeto da classe postagem. o objeto representa a chave estrangeira da tb_postagens
-  tema: Tema;
 }

@@ -14,29 +14,29 @@ import { Usuario } from '../entities/usuario.entity';
 
 @Controller('/usuarios')
 export class UsuarioController {
-  constructor(private readonly UsuarioService: UsuarioService) {}
+  constructor(private readonly usuarioService: UsuarioService) {}
 
   @Get('/all')
   @HttpCode(HttpStatus.OK)
   findAll(): Promise<Usuario[]> {
-    return this.UsuarioService.findAll();
+    return this.usuarioService.findAll();
   }
 
   @Get('/:id')
   @HttpCode(HttpStatus.OK)
   findById(@Param('id', ParseIntPipe) id: number): Promise<Usuario> {
-    return this.UsuarioService.findById(id);
+    return this.usuarioService.findById(id);
   }
 
   @Post('/cadastrar')
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() usuario: Usuario): Promise<Usuario> {
-    return this.UsuarioService.create(usuario);
+    return this.usuarioService.create(usuario);
   }
 
   @Put('/atualizar')
   @HttpCode(HttpStatus.OK)
   async update(@Body() usuario: Usuario): Promise<Usuario> {
-    return this.UsuarioService.update(usuario);
+    return this.usuarioService.update(usuario);
   }
 }

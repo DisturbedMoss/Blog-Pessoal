@@ -68,11 +68,10 @@ export class PostagemService {
   }
 
   async update(postagem: Postagem): Promise<Postagem> {
+    //verifica se a postagem existe, usando findById
     await this.findById(postagem.id);
 
     await this.temaService.findById(postagem.tema.id);
-    //verifica se a postagem existe, usando findById
-    await this.findById(postagem.id);
 
     //save() salva as alterações no banco de dados por cima de uma já existente
     return await this.postagemRepository.save(postagem);

@@ -41,7 +41,10 @@ describe('Testes dos módulos Usuario e Auth (e2e)', () => {
     if (app) await app.close();
   });
 
+  //it.only - sou capaz de fazer rodar apenas 1 teste, esse!
+  //it.skip - posso pular esse e ir para o proximo teste
   it('01 - Deve Cadastrar um novo usuário', async () => {
+    //pega a url http://localhost:4000/endereçoAbaixo /usuarios/cadastrar
     const resposta = await request(app.getHttpServer())
       .post('/usuarios/cadastrar')
       .send({
@@ -56,6 +59,7 @@ describe('Testes dos módulos Usuario e Auth (e2e)', () => {
   });
 
   it('02 - Não deve cadastrar um usuário duplicado', async () => {
+    //é uma cadeia de comandos mas que tem suas linhas quebradas por causa do eslint/prettier
     await request(app.getHttpServer())
       .post('/usuarios/cadastrar')
       .send({

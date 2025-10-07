@@ -7,6 +7,7 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { AppController } from './app.controller';
 import { ConfigModule } from '@nestjs/config';
 import { ProdService } from './data/services/prod.service';
+//import { DevService } from './data/services/dev.service';
 
 // TypeOrmModule.forRoot({
 //       //conectando com o banco de dados
@@ -28,8 +29,9 @@ import { ProdService } from './data/services/prod.service';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
-      //Use DevService ou ProdService
-      useClass: DevService,
+      //Use testar na maquina = DevService ou testar no servidor = ProdService
+      //Sempre que for subir para o github, subir com ProdService para não quebrar o servidor que está no ar
+      useClass: ProdService,
       imports: [ConfigModule],
     }),
     //inserir o module exportado aqui <--

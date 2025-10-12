@@ -1,98 +1,196 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Blog Pessoal
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST construída com NestJS para um projeto de Blog Pessoal. O backend oferece endpoints para gerenciar usuários, temas e postagens, além de autenticação via JWT.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Este README foi escrito para ser útil tanto para iniciantes quanto para desenvolvedores experientes. Contém instruções de instalação, execução, variáveis de ambiente, exemplos de uso e detalhes dos principais endpoints.
 
-## Description
+## Tecnologias principais
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Node.js + NestJS (TypeScript)
+- TypeORM (suporte a Postgres, MySQL, SQLite)
+- JWT para autenticação (Passport + @nestjs/jwt)
+- Swagger para documentação da API
 
-## Project setup
+## Requisitos
+
+- Node.js (>= 18 recomendado)
+- npm (ou yarn)
+- Banco de dados compatível (projeto configurado para usar PostgreSQL em produção via `DATABASE_URL`)
+
+## Instalação
+
+1. Clone o repositório:
 
 ```bash
-$ npm install
+git clone https://github.com/DisturbedMoss/Blog-Pessoal.git
+cd Blog-Pessoal
 ```
 
-## Compile and run the project
+2. Instale as dependências:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+3. Crie um arquivo `.env` na raiz (exemplo abaixo) ou configure variáveis de ambiente no seu ambiente de execução.
+
+Exemplo mínimo de `.env` para desenvolvimento (SQLite ou Postgres conforme sua preferência):
+
+```env
+# Porta da aplicação (opcional, padrão 4000)
+PORT=4000
+
+# Exemplo para Postgres (Produção)
+# DATABASE_URL=postgres://usuario:senha@host:5432/nome_do_banco
+
+# Exemplo para SQLite (apenas para testes locais, não existe configuração pronta neste repositório,
+# você pode adaptar o DevService caso queira usar sqlite)
+```
+
+Observação: o projeto por padrão carrega `ConfigModule.forRoot()` e usa um `ProdService` (em `src/data/services/prod.service.ts`) para conectar via `process.env.DATABASE_URL`. Em desenvolvimento você pode trocar a estratégia para um `DevService` ou configurar `DATABASE_URL` apontando para o seu banco.
+
+## Scripts úteis
+
+- npm run start: inicia a aplicação (modo padrão)
+- npm run start:dev: inicia em modo de desenvolvimento (watch)
+- npm run build: compila o projeto para `dist/`
+- npm run start:prod: roda o build em produção (`node dist/main`)
+- npm run test: executa os testes (Jest)
+- npm run test:e2e: executa testes end-to-end
+
+## Rodando a aplicação
 
 ```bash
-# unit tests
-$ npm run test
+# modo de desenvolvimento
+npm run start:dev
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# produção (após build)
+npm run build
+npm run start:prod
 ```
 
-## Deployment
+A API por padrão será exposta na porta definida em `process.env.PORT` ou `4000` (veja `src/main.ts`).
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Documentação (Swagger)
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Ao iniciar a aplicação, a documentação Swagger estará disponível em:
+
+http://localhost:4000/swagger
+
+Lá você pode ver e testar os endpoints, além de inserir o token Bearer para endpoints protegidos.
+
+## Endpoints principais
+
+Observação: muitos endpoints requerem autenticação (Bearer token). Use o endpoint de login para obter o token.
+
+Autenticação:
+
+- POST /usuarios/logar : faz login. Recebe um JSON com { "usuario": "seu@email.com", "senha": "senha" } e retorna um objeto com `token`.
+
+Usuários:
+
+- POST /usuarios/cadastrar : cria um usuário (sem necessidade de token)
+- GET /usuarios/all : retorna todos os usuários (protegido por JWT)
+- GET /usuarios/:id : retorna usuário por id (protegido)
+- PUT /usuarios/atualizar : atualiza usuário (protegido)
+
+Temas:
+
+- GET /temas : lista todos os temas (protegido)
+- GET /temas/:id : retorna tema por id (protegido)
+- GET /temas/descricao/:descricao : busca temas por parte da descrição (protegido)
+- POST /temas : cria tema (protegido)
+- PUT /temas : atualiza tema (protegido)
+- DELETE /temas/:id : deleta tema (protegido)
+
+Postagens:
+
+- GET /postagens : lista todas as postagens (protegido)
+- GET /postagens/:id : retorna postagem por id (protegido)
+- GET /postagens/titulo/:titulo : busca postagens por título (protegido)
+- POST /postagens : cria postagem (protegido)
+- PUT /postagens : atualiza postagem (protegido)
+- DELETE /postagens/:id : deleta postagem (protegido)
+
+Exemplo de fluxo rápido (via curl)
+
+1. Cadastrar usuário (sem token):
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+curl -X POST http://localhost:4000/usuarios/cadastrar \
+  -H 'Content-Type: application/json' \
+  -d '{"nome":"Vitor","usuario":"email@teste.com","senha":"minhaSenha123","foto":"http://exemplo.com/foto.jpg"}'
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+2. Logar para obter token:
 
-## Resources
+```bash
+curl -X POST http://localhost:4000/usuarios/logar \
+  -H 'Content-Type: application/json' \
+  -d '{"usuario":"email@teste.com","senha":"minhaSenha123"}'
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+Resposta esperada contém `token`: copie o valor do campo `token` para usar nos próximos requests.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+3. Usar token para acessar endpoint protegido:
 
-## Support
+```bash
+curl -H "Authorization: Bearer <SEU_TOKEN_AQUI>" http://localhost:4000/temas
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Entidades (visão rápida)
 
-## Stay in touch
+- Usuario: { id, nome, usuario (email), senha, foto, postagem[] }
+- UsuarioLogin: { usuario, senha }
+- Tema: { id, descricao, postagem[] }
+- Postagem: { id, titulo, texto, data, tema, usuario }
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Campos importantes e validações (resumo):
 
-## License
+- `Usuario.usuario` deve ser um email válido; `Usuario.senha` tem minlength = 8.
+- `Postagem.titulo` e `Postagem.texto` são obrigatórios.
+- `Tema.descricao` é obrigatório.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## Variáveis de ambiente
+
+- PORT: porta onde o servidor roda (padrão 4000)
+- DATABASE_URL: string de conexão para o banco (usado pelo `ProdService`). Exemplo:
+
+  postgres://user:password@host:5432/database
+
+Observação: o `ProdService` habilita SSL e é esperado para deployments em provedores que forneçam `DATABASE_URL`.
+
+## Testes
+
+O projeto usa Jest. Para rodar os testes:
+
+```bash
+npm run test
+npm run test:e2e
+npm run test:cov
+```
+
+## Boas práticas e notas
+
+- Nunca comite segredos ou `DATABASE_URL` com credenciais no GitHub.
+- Em produção, valide se `synchronize: true` em TypeORM é o comportamento desejado (ele altera o esquema automaticamente). Em muitas aplicações reais, recomenda-se migrations em vez de `synchronize`.
+- As senhas são armazenadas/hashadas: o projeto usa um wrapper `Bcrypt` para comparar senhas (veja `src/auth/bcrypt/bcrypt.ts`).
+
+## Próximos passos sugeridos (opcionais)
+
+- Adicionar um `DevService` e instruções para usar um banco local (SQLite/MySQL) em desenvolvimento.
+- Adicionar testes unitários e e2e cobrindo autenticação e fluxo de postagens.
+- Automatizar lint e CI (GitHub Actions) com steps para rodar testes e build em PRs.
+
+## Contato
+
+- Autor/Contato encontrado no Swagger: Vitor Hugo — dasilvavitorhugo713@gmail.com
+- Repositório original: https://github.com/DisturbedMoss/Blog-Pessoal
+
+---
+
+Se quiser, posso:
+
+- ajustar o README para incluir instruções passo-a-passo para Windows (PowerShell) ou Linux (bash);
+- adicionar exemplos com Postman / Insomnia;
+- criar um `.env.example` com variáveis sugeridas.

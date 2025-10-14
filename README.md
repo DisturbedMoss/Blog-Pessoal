@@ -186,11 +186,3 @@ npm run test:cov
 
 - Autor/Contato encontrado no Swagger: Vitor Hugo — dasilvavitorhugo713@gmail.com
 - Repositório original: https://github.com/DisturbedMoss/Blog-Pessoal
-
----
-
-Se quiser, posso:
-
-- ajustar o README para incluir instruções passo-a-passo para Windows (PowerShell) ou Linux (bash);
-- adicionar exemplos com Postman / Insomnia;
-- criar um `.env.example` com variáveis sugeridas.

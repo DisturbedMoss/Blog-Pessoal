@@ -176,13 +176,7 @@ npm run test:cov
 - Em produção, valide se `synchronize: true` em TypeORM é o comportamento desejado (ele altera o esquema automaticamente). Em muitas aplicações reais, recomenda-se migrations em vez de `synchronize`.
 - As senhas são armazenadas/hashadas: o projeto usa um wrapper `Bcrypt` para comparar senhas (veja `src/auth/bcrypt/bcrypt.ts`).
 
-## Próximos passos sugeridos (opcionais)
-
-- Adicionar um `DevService` e instruções para usar um banco local (SQLite/MySQL) em desenvolvimento.
-- Adicionar testes unitários e e2e cobrindo autenticação e fluxo de postagens.
-- Automatizar lint e CI (GitHub Actions) com steps para rodar testes e build em PRs.
-
 ## Contato
 
-- Autor/Contato encontrado no Swagger: Vitor Hugo — dasilvavitorhugo713@gmail.com
+- Autor/Contato: Vitor Hugo — dasilvavitorhugo713@gmail.com
 - Repositório original: https://github.com/DisturbedMoss/Blog-Pessoal
